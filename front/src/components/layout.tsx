@@ -38,7 +38,7 @@ export default function RoloLayout({ children }: layoutProps) {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: '1em',
+          padding: 2,
         }}
       >
         <Link href='/' passHref>
@@ -49,7 +49,7 @@ export default function RoloLayout({ children }: layoutProps) {
             sx={{ height: 40, width: 40 }}
           />
         </Link>
-        <Toolbar sx={{ padding: 0 }}>
+        <Toolbar disableGutters>
           <Link href='/cart' passHref>
             <IconButton aria-label='Carrinho' size='large'>
               <ShoppingCartOutlined fontSize='inherit' />
@@ -74,7 +74,7 @@ export default function RoloLayout({ children }: layoutProps) {
         open={openDrawer}
         onClose={() => setOpenDrawer(!openDrawer)}
         anchor='right'
-        slotProps={{ paper: { sx: { width: '80%', padding: '1em' } } }}
+        slotProps={{ paper: { sx: { width: '80%', padding: 2 } } }}
       >
         <Box
           component='div'
@@ -85,14 +85,14 @@ export default function RoloLayout({ children }: layoutProps) {
             flexDirection: 'column',
             justifyContent: 'center',
             alignItems: 'center',
-            gap: '1.5em',
-            marginBottom: '1.5em',
+            gap: 3.5,
+            marginBottom: 3.5,
             borderBottom: '1px solid #D1D4DA',
           }}
         >
           <Avatar
             src={'avatar_placeholder.png'}
-            alt='User photo'
+            alt='Avatar do Usuário'
             sx={{ width: '2.5em', height: '2.5em' }}
           />
           <Box component='div' sx={{ textAlign: 'center' }}>
@@ -107,35 +107,28 @@ export default function RoloLayout({ children }: layoutProps) {
           </Box>
         </Box>
         <Toolbar
+          disableGutters
           sx={{
             display: 'flex',
             flexDirection: 'column',
             padding: 0,
             alignItems: 'start',
-            gap: '1em',
+            gap: 2,
           }}
         >
-          <IconButton aria-label='Rolos' size='large' sx={{ gap: '0.5em' }}>
+          <IconButton aria-label='Rolos' size='large' sx={{ gap: 2 }}>
             <SwapHoriz fontSize='inherit' />
             <Typography variant='body2'>Visualizar Rolos</Typography>
           </IconButton>
-          <IconButton
-            aria-label='Marketplace'
-            size='large'
-            sx={{ gap: '0.5em' }}
-          >
+          <IconButton aria-label='Marketplace' size='large' sx={{ gap: 2 }}>
             <StoreOutlined fontSize='inherit' />
             <Typography variant='body2'>Marketplace</Typography>
           </IconButton>
-          <IconButton aria-label='Galeria' size='large' sx={{ gap: '0.5em' }}>
+          <IconButton aria-label='Galeria' size='large' sx={{ gap: 2 }}>
             <CollectionsOutlined fontSize='inherit' />
             <Typography variant='body2'>Galeria</Typography>
           </IconButton>
-          <IconButton
-            aria-label='Configurações'
-            size='large'
-            sx={{ gap: '0.5em' }}
-          >
+          <IconButton aria-label='Configurações' size='large' sx={{ gap: 2 }}>
             <SettingsOutlined fontSize='inherit' />
             <Typography variant='body2'>Configurações</Typography>
           </IconButton>

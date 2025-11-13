@@ -7,7 +7,7 @@ import useEmblaCarousel from 'embla-carousel-react';
 import { ReactNode } from 'react';
 
 export default function Carousel({ children }: { children?: ReactNode }) {
-  const [emblaRef] = useEmblaCarousel({ loop: true }, [
+  const [emblaRef] = useEmblaCarousel({ loop: true, watchDrag: false }, [
     Autoplay({ stopOnInteraction: false }),
   ]);
 
