@@ -1,8 +1,8 @@
 import Carousel from '@/components/carousel';
+import SearchBar from '@/components/SearchBar';
 import bannerData from '@/mockData/banner';
 import categorieData from '@/mockData/categories';
 import productsData from '@/mockData/products';
-import { Search } from '@mui/icons-material';
 import {
   Avatar,
   Box,
@@ -11,8 +11,6 @@ import {
   CardContent,
   CardMedia,
   Grid,
-  InputAdornment,
-  TextField,
   Typography,
 } from '@mui/material';
 import Link from 'next/link';
@@ -44,22 +42,7 @@ export default function MarketPlace() {
           gap: '1em',
         }}
       >
-        <TextField
-          id='marketSearch'
-          variant='filled'
-          size='small'
-          hiddenLabel
-          placeholder='Procurar por um item...'
-          slotProps={{
-            input: {
-              startAdornment: (
-                <InputAdornment position='start'>
-                  <Search />
-                </InputAdornment>
-              ),
-            },
-          }}
-        />
+        <SearchBar placeholder="Procurar por um item..."/>
         <Box
           component='div'
           sx={{
