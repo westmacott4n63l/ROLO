@@ -11,7 +11,7 @@ import com.rolo.ROLO.model.dto.GalleryRequest;
 public class GalleriesEndpoints extends BaseEndpoints<GalleryRequest> {
 	
 	public GalleriesEndpoints() {
-		super("GALERIA", "ID");
+		super("GALERIA");
 	}
 	
 }

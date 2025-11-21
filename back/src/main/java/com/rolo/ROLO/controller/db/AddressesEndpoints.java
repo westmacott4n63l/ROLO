@@ -11,7 +11,7 @@ import com.rolo.ROLO.model.dto.AddressRequest;
 public class AddressesEndpoints extends BaseEndpoints<AddressRequest> {
 
 	public AddressesEndpoints() {
-		super("ENDERECO", "IDENDERECO");
+		super("ENDERECO");
 	}
 
 }

@@ -4,7 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 public class AddressRequest {
-	@Getter @Setter public int idendereco;
+	@Getter @Setter public int id;
 	@Getter @Setter public String cep;
 	@Getter @Setter public String rua;
 	@Getter @Setter public String numero;

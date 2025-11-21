@@ -11,7 +11,7 @@ import com.rolo.ROLO.model.dto.TransactionRequest;
 public class TransactionsEndpoints extends BaseEndpoints<TransactionRequest> {
 	
 	public TransactionsEndpoints() {
-		super("TRANSACAO", "ID");
+		super("TRANSACAO");
 	}
 	
 }

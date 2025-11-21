@@ -17,11 +17,9 @@ import com.rolo.ROLO.service.DatabaseService;
 public abstract class BaseEndpoints<T> {
 	
 	protected String tableName;
-	protected String idField;
 	
-	public BaseEndpoints(String tableName, String idField) {
+	public BaseEndpoints(String tableName) {
 		this.tableName = tableName;
-		this.idField = idField;
 	}
 	
 	@Autowired
@@ -34,7 +32,7 @@ public abstract class BaseEndpoints<T> {
 	
 	@GetMapping("{id}")
 	public List<Map<String,Object>> getById(@PathVariable int id) {
-		 return service.getByField(tableName, idField, id);
+		 return service.getByField(tableName, "id", id);
 	}
 	
 	@PostMapping
@@ -45,7 +43,7 @@ public abstract class BaseEndpoints<T> {
 	
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> delete(@PathVariable int id) {
-		service.deleteByField(tableName, idField, id);
+		service.deleteByField(tableName, "id", id);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 }
