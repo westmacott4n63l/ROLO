@@ -1,5 +1,6 @@
 package com.rolo.ROLO.service;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,19 +25,24 @@ public class AuthService {
 		if(request.email.split(" ").length > 1 || request.senha.split(" ").length > 1)
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		
-		String sql = String.format(
-				"SELECT senha FROM USUARIOS "
-				+ "WHERE email = '%s' and senha = '%s'",
-				request.email, request.senha);
-		List<Map<String, Object>> queryResponse = queryService.rawQuery(sql);
-		
-		if(queryResponse.size() == 0)
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-		
-		Session session = new Session(request);
-		sessions.add(session);		
-		
-		return ResponseEntity.status(HttpStatus.OK).body(session);
+		try {
+			String sql = String.format(
+					"SELECT senha FROM USUARIOS "
+							+ "WHERE email = '%s' and senha = '%s'",
+							request.email, request.senha);
+			List<Map<String, Object>> queryResponse = queryService.rawQuery(sql);
+			
+			if(queryResponse.size() == 0)
+				return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+			
+			Session session = new Session(request);
+			sessions.add(session);		
+			
+			
+			return ResponseEntity.status(HttpStatus.OK).body(session);
+		} catch(SQLException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+		}
 	}
 	
 	public boolean sessionExists(LoginRequest request) {

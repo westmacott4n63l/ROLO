@@ -11,7 +11,7 @@ import com.rolo.ROLO.model.dto.ProductRequest;
 public class ProductsEndpoints extends BaseEndpoints<ProductRequest> {
 	
 	public ProductsEndpoints() {
-		super("PRODUTO");
+		super("PRODUTO", ProductRequest.class);
 	}
 	
 }

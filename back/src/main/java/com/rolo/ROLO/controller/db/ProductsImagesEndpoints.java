@@ -11,7 +11,7 @@ import com.rolo.ROLO.model.dto.ProductsImagesRequest;
 public class ProductsImagesEndpoints extends BaseEndpoints<ProductsImagesRequest>{
 	
 	public ProductsImagesEndpoints() {
-		super("IMAGENS_PRODUTO");
+		super("IMAGENS_PRODUTO", ProductsImagesRequest.class);
 	}
 
 }

@@ -11,7 +11,7 @@ import com.rolo.ROLO.model.dto.UserAddressRequest;
 public class UsersAddressesEndpoints extends BaseEndpoints<UserAddressRequest>{
 
 	public UsersAddressesEndpoints() {
-		super("ENDERECO_DO_USUARIO");
+		super("ENDERECO_DO_USUARIO", UserAddressRequest.class);
 	}
 
 }

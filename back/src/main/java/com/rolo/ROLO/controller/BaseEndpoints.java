@@ -1,7 +1,7 @@
 package com.rolo.ROLO.controller;
 
+import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,35 +15,59 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.rolo.ROLO.service.DatabaseService;
 
 public abstract class BaseEndpoints<T> {
-	
+
 	protected String tableName;
-	
-	public BaseEndpoints(String tableName) {
+	protected Class<T> type;
+
+	public BaseEndpoints(String tableName, Class<T> type) {
 		this.tableName = tableName;
+		this.type = type;
 	}
-	
+
 	@Autowired
 	protected DatabaseService service;
-	
+
 	@GetMapping
-	public List<Map<String,Object>> getAll() {
-		 return service.getAll(tableName);
+	public ResponseEntity<List<T>> getAll() {
+		try {
+			List<T> queryResult = ResultMapper.mapToList(service.getAll(tableName), type);
+			return ResponseEntity.status(HttpStatus.OK).body(queryResult);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
-	
+
 	@GetMapping("{id}")
-	public List<Map<String,Object>> getById(@PathVariable int id) {
-		 return service.getByField(tableName, "id", id);
+	public ResponseEntity<T> getById(@PathVariable int id) {
+		try {
+			T queryResult = ResultMapper.mapToList(service.getByField(tableName, "id", id), type).get(0);
+			return ResponseEntity.status(HttpStatus.OK).body(queryResult);
+		} catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
 	}
-	
+
 	@PostMapping
 	public ResponseEntity<?> create(@RequestBody T request) {
-		service.create(tableName, request);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+		try {
+			service.create(tableName, request);
+			return ResponseEntity.status(HttpStatus.CREATED).build();			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
 	}
-	
+
 	@DeleteMapping("{id}")
 	public ResponseEntity<?> delete(@PathVariable int id) {
-		service.deleteByField(tableName, "id", id);
-		return ResponseEntity.status(HttpStatus.OK).build();
+		try {
+			service.deleteByField(tableName, "id", id);
+			return ResponseEntity.status(HttpStatus.OK).build();			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
 	}
 }

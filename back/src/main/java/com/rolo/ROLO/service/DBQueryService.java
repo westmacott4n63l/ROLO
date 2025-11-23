@@ -17,52 +17,46 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class DBQueryService {
-	
+
 	@Autowired
 	private DataSource dataSource;
 
-	public List<Map<String, Object>> rawQuery(String sql, Object... params) {
-        List<Map<String, Object>> results = new ArrayList<>();
+	public List<Map<String, Object>> rawQuery(String sql, Object... params) throws SQLException {
+		List<Map<String, Object>> results = new ArrayList<>();
 
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection conn = dataSource.getConnection(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            // Fill placeholders if any (safe for SQL injection)
-            for(int i = 0; i < params.length; i++) {
-                stmt.setObject(i + 1, params[i]);
-            }
+			// Fill placeholders if any (safe for SQL injection)
+			for(int i = 0; i < params.length; i++) {
+				stmt.setObject(i + 1, params[i]);
+			}
 
-            try (ResultSet rs = stmt.executeQuery()) {
-                ResultSetMetaData meta = rs.getMetaData();
-                int columnCount = meta.getColumnCount();
+			try (ResultSet rs = stmt.executeQuery()) {
+				ResultSetMetaData meta = rs.getMetaData();
+				int columnCount = meta.getColumnCount();
 
-                while (rs.next()) {
-                    Map<String, Object> row = new LinkedHashMap<>();
-                    for (int i = 1; i <= columnCount; i++) {
-                        row.put(meta.getColumnLabel(i), rs.getObject(i));
-                    }
-                    results.add(row);
-                }
-            }
+				while (rs.next()) {
+					Map<String, Object> row = new LinkedHashMap<>();
+					for (int i = 1; i <= columnCount; i++) {
+						row.put(meta.getColumnLabel(i), rs.getObject(i));
+					}
+					results.add(row);
+				}
+			}
+		}
 
-        } catch (Exception e) {
-            throw new RuntimeException("Error executing query: " + sql, e);
-        }
+		return results;
+	}
 
-        return results;
-    }
-	
-    public int rawUpdate(String sql, Object... params) {
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+	public int rawUpdate(String sql, Object... params) throws SQLException {
+		try (Connection conn = dataSource.getConnection();
+				PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            for (int i = 0; i < params.length; i++) {
-                stmt.setObject(i + 1, params[i]);
-            }
+			for (int i = 0; i < params.length; i++) {
+				stmt.setObject(i + 1, params[i]);
+			}
 
-            return stmt.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error executing update: " + sql, e);
-        }
-    }
+			return stmt.executeUpdate();
+		}
+	}
 }
