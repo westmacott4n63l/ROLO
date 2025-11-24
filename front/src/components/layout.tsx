@@ -38,7 +38,9 @@ export default function RoloLayout({ children }: layoutProps) {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          padding: 2,
+          paddingLeft: { xs: 1, md: 2, },
+          paddingRight: { xs: 1, md: 2, },
+          paddingTop: { xs: 2, md: 1, },
         }}
       >
         <Link href='/'>
@@ -47,8 +49,7 @@ export default function RoloLayout({ children }: layoutProps) {
             src='/logo.svg'
             alt='Rolo Logo'
             sx={{
-              height: { xs: 40, md: 36 },
-              width: { xs: 40, md: 36 },
+              width: 32,
             }}
           />
         </Link>
