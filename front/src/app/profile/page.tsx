@@ -36,6 +36,7 @@ const user = {
     },
   ],
 };
+
 const products = [
   {
     id: 1,
@@ -101,7 +102,7 @@ export default function Profile() {
           gap: 5,
         }}
       >
-        {/* Perfil/esquerda */}
+        {/* Perfil */}
         <Box
           sx={{
             bgcolor: '#272A30',
@@ -167,7 +168,7 @@ export default function Profile() {
           </Typography>
         </Box>
       </Box>
-      {/* Estatísticas */}
+      {/* Estatísticas tem que ser arrumando, o margin não está sendo aplicado por causa do mx "auto" */}
       <Box
         sx={{
           maxWidth: 1200,
@@ -206,7 +207,8 @@ export default function Profile() {
           </Box>
         ))}
       </Box>
-      {/* Galeria de Produtos/direita */}
+
+      {/* Galeria de Produtos*/}
       <Box
         sx={{
           maxWidth: 1200,
