@@ -322,3 +322,5 @@ export default function Profile() {
     </Box>
   );
 }
+
+// Falta colocar uma codicional, quando for o proprio usuario vai aparecer um botao de editar perfil no canto superior direito da caixa do perfil, que vai levar para configurações do perfil
