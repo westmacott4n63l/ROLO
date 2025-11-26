@@ -63,7 +63,7 @@ export default function Product({
       >
         {/* Carrossel ocupa metade no desktop */}
         <Box sx={{ width: { xs: '100%', md: '50%' }, minWidth: 0 }}>
-          <ProductCarousel>
+          <ProductCarousel images={allImages}>
             {allImages.map((image, index) => (
               <Box key={index} sx={{ flex: '0 0 100%', minWidth: 0, px: 1 }}>
                 <Box
@@ -202,6 +202,7 @@ export default function Product({
                 justifyContent: 'space-between',
                 borderBlock: '1px solid #D1D4DA33',
                 py: 2.5,
+                marginBottom: { md: '2.25rem' },
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
