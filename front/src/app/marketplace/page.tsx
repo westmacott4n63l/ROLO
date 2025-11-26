@@ -1,6 +1,6 @@
 import { BannerCarousel } from '@/components/carousel';
 import CategoryButton from '@/components/categoryButton';
-import ProductCard from '@/components/ProductCard';
+import ProductCard from '@/components/productCard';
 import SearchBar from '@/components/searchBar';
 import bannerData from '@/mockData/banner';
 import categorieData from '@/mockData/categories';

@@ -1,3 +1,4 @@
+import { useRelativeDate } from '@/hooks/useRelativeTime';
 import { ProductProps } from '@/mockData/products';
 import {
   Avatar,
@@ -9,6 +10,8 @@ import {
 } from '@mui/material';
 
 export default function ProductCard({ product }: { product: ProductProps }) {
+  const relativeDate = useRelativeDate(new Date(product.createdAt));
+
   return (
     <Card variant='outlined' sx={{ borderRadius: '0.5em', height: '100%' }}>
       <CardMedia component='img' height={160} image={product.images.main} />
@@ -38,6 +41,8 @@ export default function ProductCard({ product }: { product: ProductProps }) {
           sx={{
             display: 'flex',
             flexDirection: 'row',
+            width: '100%',
+            justifyContent: 'space-between',
             alignItems: 'center',
             gap: 1,
           }}
@@ -55,26 +60,12 @@ export default function ProductCard({ product }: { product: ProductProps }) {
           component='div'
           sx={{
             display: 'flex',
-            flexDirection: 'row',
+            flexDirection: 'column',
             justifyContent: 'space-between',
           }}
         >
           <Typography variant='body2' sx={{ fontSize: 12 }}>
-            {(() => {
-              const now = new Date();
-              const date = new Date(product.createdAt);
-              const diffMs = now.getTime() - date.getTime();
-              const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
-              const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
-
-              if (diffHours < 24) {
-                return `${diffHours} ${diffHours === 1 ? 'hora' : 'horas'}`;
-              } else if (diffDays === 1) {
-                return 'ontem';
-              } else {
-                return `${diffDays} ${diffDays === 1 ? 'dia' : 'dias'}`;
-              }
-            })()}
+            {relativeDate}
           </Typography>
           <Typography variant='body2' sx={{ fontSize: 12 }}>
             {product.location.city} - {product.location.state}
