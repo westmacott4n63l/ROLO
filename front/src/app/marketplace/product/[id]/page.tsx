@@ -1,9 +1,18 @@
 'use client';
 
 import { ProductCarousel } from '@/components/carousel';
-import productsData, { ProductProps } from '@/mockData/products';
+import productsData from '@/mockData/products';
 import { AddShoppingCart, FavoriteBorder } from '@mui/icons-material';
-import { Avatar, Box, Button, Typography } from '@mui/material';
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  CardMedia,
+  Typography,
+} from '@mui/material';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { use } from 'react';
 
 export default function Product({
@@ -12,12 +21,12 @@ export default function Product({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-
-  // Não precisa de useState - só busca uma vez
+  const router = useRouter();
   const product = productsData.find((item) => item.id === Number(id));
 
-  // Early return se produto não existir
   if (!product) {
+    router.push('/');
+
     return (
       <Box sx={{ p: 2 }}>
         <Typography>Produto não encontrado</Typography>
@@ -26,6 +35,9 @@ export default function Product({
   }
 
   const allImages = [product.images.main, ...product.images.gallery];
+  const sellerProducts = productsData
+    .filter((item) => item.seller.name && item.id !== product.id)
+    .slice(0, 4);
 
   return (
     <Box
@@ -51,7 +63,7 @@ export default function Product({
       >
         {/* Carrossel ocupa metade no desktop */}
         <Box sx={{ width: { xs: '100%', md: '50%' }, minWidth: 0 }}>
-          <ProductCarousel>
+          <ProductCarousel images={allImages}>
             {allImages.map((image, index) => (
               <Box key={index} sx={{ flex: '0 0 100%', minWidth: 0, px: 1 }}>
                 <Box
@@ -79,25 +91,35 @@ export default function Product({
             pl: { xs: 0, md: 3 },
             display: 'flex',
             flexDirection: 'column',
-            justifyContent: 'space-between',
+            justifyContent: { xs: 'space-between', md: 'space-around' },
             gap: 2,
           }}
         >
-          <Box>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: { xs: 'column', md: 'column-reverse' },
+            }}
+          >
             {/* Preço e favorito */}
             <Box
               sx={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 alignItems: 'center',
+                marginTop: { md: '1rem' },
               }}
             >
-              <Typography variant='h3' color='primary.main'>
+              <Typography
+                variant={'h3'}
+                color='primary.main'
+                sx={{ fontSize: { md: 36 } }}
+              >
                 R$ {product.price}
               </Typography>
               <FavoriteBorder
                 fontSize='medium'
-                sx={{ color: 'primary.dark' }}
+                sx={{ color: 'primary.dark', fontSize: { md: '1.75em' } }}
               />
             </Box>
 
@@ -180,6 +202,7 @@ export default function Product({
                 justifyContent: 'space-between',
                 borderBlock: '1px solid #D1D4DA33',
                 py: 2.5,
+                marginBottom: { md: '2.25rem' },
               }}
             >
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
@@ -217,6 +240,84 @@ export default function Product({
       >
         <Typography variant='body2'>{product.description}</Typography>
       </Box>
+
+      {/* Outros produtos deste vendedor */}
+      {sellerProducts.length > 0 && (
+        <Box
+          sx={{
+            maxWidth: 1200,
+            width: '100%',
+            mt: 4,
+          }}
+        >
+          <Typography variant='h5' sx={{ mb: 2 }}>
+            Outros produtos de {product.seller.name}
+          </Typography>
+
+          <Box
+            sx={{
+              display: 'grid',
+              gridTemplateColumns: {
+                xs: 'repeat(1, 1fr)',
+                sm: 'repeat(2, 1fr)',
+                md: 'repeat(4, 1fr)',
+              },
+              gap: 2,
+            }}
+          >
+            {sellerProducts.map((item) => (
+              <Link
+                key={item.id}
+                href={`/marketplace/product/${item.id}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <Card
+                  sx={{
+                    cursor: 'pointer',
+                    transition: 'transform 0.2s, box-shadow 0.2s',
+                    '&:hover': {
+                      transform: 'translateY(-4px)',
+                      boxShadow: 3,
+                    },
+                  }}
+                >
+                  <CardMedia
+                    component='img'
+                    image={item.images.main}
+                    alt={item.title}
+                    sx={{
+                      objectFit: 'cover',
+                      backgroundColor: 'grey.100',
+                      maxHeight: '12rem',
+                      aspectRatio: '1 / 1',
+                    }}
+                  />
+                  <Box sx={{ p: 1.5 }}>
+                    <Typography
+                      variant='body2'
+                      sx={{
+                        fontWeight: 'bold',
+                        mb: 0.5,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'nowrap',
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                    <Typography variant='h6' color='primary.main'>
+                      R$ {item.price}
+                    </Typography>
+                    <Typography variant='caption' color='textSecondary'>
+                      {item.location.city} - {item.location.state}
+                    </Typography>
+                  </Box>
+                </Card>
+              </Link>
+            ))}
+          </Box>
+        </Box>
+      )}
     </Box>
   );
 }

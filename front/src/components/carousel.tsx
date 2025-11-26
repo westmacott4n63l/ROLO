@@ -22,9 +22,11 @@ export function BannerCarousel({ children }: { children?: ReactNode }) {
 export function ProductCarousel({
   children,
   onSlideChange,
+  images,
 }: {
   children?: ReactNode;
   onSlideChange?: (index: number) => void;
+  images?: string[];
 }) {
   const [emblaRef, emblaApi] = useEmblaCarousel({
     loop: true,
@@ -68,7 +70,7 @@ export function ProductCarousel({
 
       <Box
         sx={{
-          display: 'flex',
+          display: { xs: 'flex', md: 'none' },
           justifyContent: 'center',
           gap: 1,
           mt: 2,
@@ -94,6 +96,43 @@ export function ProductCarousel({
           />
         ))}
       </Box>
+
+      {images && (
+        <Box
+          sx={{
+            display: { xs: 'none', md: 'flex' },
+            justifyContent: 'center',
+            gap: 2,
+            mt: 2,
+          }}
+        >
+          {images.map((img, index) => (
+            <Box
+              key={index}
+              component='img'
+              src={img}
+              alt={`Preview ${index}`}
+              onClick={() => scrollTo(index)}
+              sx={{
+                width: '4rem',
+                height: '4rem',
+                objectFit: 'cover',
+                borderRadius: 1,
+                cursor: 'pointer',
+                border: '2px solid',
+                borderColor:
+                  selectedIndex === index ? 'primary.main' : 'transparent',
+                opacity: selectedIndex === index ? 1 : 0.6,
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  opacity: 1,
+                  'primary.main': 'grey.600',
+                },
+              }}
+            />
+          ))}
+        </Box>
+      )}
     </Box>
   );
 }
